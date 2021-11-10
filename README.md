@@ -8,4 +8,4 @@ This installer also creates shortcuts and default app registrations for the curr
 **Instructions:** Clone repository to ZIP file, extract it, run _setup_portable.cmd_ — that's it! If and when you need to undo it, run _setup_uninstall.cmd_
 
 
-<img width="465" src="https://user-images.githubusercontent.com/32809089/141185653-50c5dd7a-8cac-4120-8199-1e919b81d906.png">
+<img width="466" src="https://user-images.githubusercontent.com/32809089/141188876-0d5b63ab-c43e-4cbb-a488-b49e2637a539.png">
