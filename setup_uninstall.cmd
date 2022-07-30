@@ -1,13 +1,12 @@
 @echo off
 color 0e
 title Ungoogled Chrome: Uninstaller
-taskkill /f /im "chrome.exe"
 
-:installvars
+:uninstallcfg
 set "CHRVer=103.0.5060.114"
 set "CHRExec_REG=%LOCALAPPDATA%\Chromium\Application"
 
-echo %chrexec_Reg% && pause
+taskkill /f /im "chrome.exe"
 
 :keepdata
 cls && echo /
