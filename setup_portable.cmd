@@ -1,10 +1,19 @@
 @echo off
 color 0e
-title Ungoogled Chrome installer
+set /a gostep=0
 cd /d "%~dp0bin"
+setlocal enabledelayedexpansion
+title Ungoogled Chrome installer
 
+:installvars
+set "CHRVer=103.0.5060.114"
 set "CHRArgs=--silent-debugger-extension-api"
 set "CHRExec_REG=%LOCALAPPDATA%\Chromium\Application"
+
+:start
+set "gostep_opt0= "
+set "gostep_opt1= "
+set "dash=  ------------------------------------------------------------------------------"
 
 :banner
 cls
@@ -19,36 +28,58 @@ echo   inal Google Chrome in all but function, using its .PAK graphics resource 
 echo/
 echo   [NOTE] You don't need administrator access to install this program
 echo/
-echo   ------------------------------------------------------------------------------
+echo %dash%
 echo/
 echo   ARGUMENTS (change line 6 in ^<setup_portable.cmd^> to edit):
 echo ^> %CHRArgs%
 echo/
-echo   ------------------------------------------------------------------------------
+echo %dash%
 echo/
 echo   INSTALLATION DIRECTORY (DO NOT edit):
 echo ^> %CHRExec_REG%
 echo/
-echo   ------------------------------------------------------------------------------
+echo %dash%
 echo/
 echo   EXTRA INFO AND FEATURES:
-echo ^> This is version 93.0.4577.82 of Chromium, built by Marmaduke with Widevine and
-echo   all codecs available in the proprietary Chrome build.
+echo ^> This is version %CHRVer% of Chromium Stable, an ungoogled-chromium build
+echo    from Marmaduke with Widevine and other proprietary codecs available, making it
+echo    largely functionally identical to Google's closed-source build.
 echo/
 echo ^> This package also includes some preconfigured extensions, like Nano Adblocker,
-echo   Ruffle, Violentmonkey running userscripts like Anti-Adblock Killer list, etc.
+echo   Ruffle, Violentmonkey running userscripts like Anti-Adblock Killer list, etc; a
+echo   few flags set to streamline and enhance browser behavior; and minimal settings.
 echo/
 echo ^> Furthermore, this program also has many search engines configured; example "wa
 echo   ^<text^>" searches WolframAlpha, "gm ^<location^>" searches Google Maps, etc.
 echo/
-echo   ------------------------------------------------------------------------------
-echo/
-set /p proceed="> Press [ENTER] to start installation. "
+echo %dash% && echo/
+goto %gostep%
+
+:0
+set "gostep_opt0= "
+set "gostep_txt0=> Press [ENTER] to start installation, or [Q] and then [ENTER] to quit: "
+set /p "gostep_opt0=%gostep_txt0%"
+if /i "%gostep_opt0%" EQU "Q" (exit) else if "%gostep_opt0%" EQU " " (goto 1) else (goto start)
+
+:1
+color 0a
+if %gostep% NEQ 1 (set /a gostep=1 && goto start)
+for /l %%x in (0,1,%gostep%-1) do (echo !gostep_txt%%x!!gostep_opt%%x! > NUL 2)
+
+set "gostep_opt1= "
+set "gostep_txt1=> Press [ENTER] to clean current data, or [K] and then [ENTER] to keep them: "
+set /p "gostep_opt1=%gostep_txt1%"
+if /i "%gostep_opt1%" EQU "K" (goto install) else if "%gostep_opt1%" EQU " " (goto cleanup) else (goto start)
+
+:cleanup
+del /f /q "%LOCALAPPDATA%\Chromium\Application\chrome.exe" >NUL 2>&1
+rmdir /s /q "%LOCALAPPDATA%\Chromium\Application\%CHRVer%" >NUL 2>&1
+rmdir /s /q "%LOCALAPPDATA%\Chromium\Application\User Data" >NUL 2>&1
 
 :install
 start /w "" wscript "bootstrap.vbs" "--uninstall"
-7za x -o"%LOCALAPPDATA%\Chromium\Application" -y binary.001 >NUL 2>&1
-7za x -o"%LOCALAPPDATA%\Chromium\User Data" -y userdata_defaultconfig >NUL 2>&1
+7za x -o"%LOCALAPPDATA%\Chromium\Application" -y binary >NUL 2>&1
+7za x -o"%LOCALAPPDATA%\Chromium\User Data" -y userdata >NUL 2>&1
 wscript "bootstrap.vbs" "%CHRArgs%"
 
 :defaultapp_registryconfig
@@ -107,7 +138,7 @@ reg add "HKCU\SOFTWARE\Classes\Chrome.WEBP\shell\open\command" /ve /t REG_SZ /d 
 :final
 color 0a
 echo/
-echo   ------------------------------------------------------------------------------
+echo %dash%
 echo/
 echo   All done!
 set /p proceed="> Press [ENTER] to exit. "
