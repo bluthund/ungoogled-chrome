@@ -3,9 +3,9 @@ color 0e
 set /a gostep=0
 cd /d "%~dp0bin"
 setlocal enabledelayedexpansion
-title Ungoogled Chrome installer
+title Ungoogled Chrome: Installer
 
-:installvars
+:installcfg
 set "CHRVer=103.0.5060.114"
 set "CHRArgs=--silent-debugger-extension-api"
 set "CHRExec_REG=%LOCALAPPDATA%\Chromium\Application"
