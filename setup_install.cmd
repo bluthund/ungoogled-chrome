@@ -42,8 +42,8 @@ echo %dash%
 echo/
 echo   EXTRA INFO AND FEATURES:
 echo ^> This is version %CHRVer% of Chromium Stable, an ungoogled-chromium build
-echo    from Marmaduke with Widevine and other proprietary codecs available, making it
-echo    largely functionally identical to Google's closed-source build.
+echo   from Marmaduke with Widevine and other proprietary codecs available, making it
+echo   largely functionally identical to Google's closed-source build.
 echo/
 echo ^> This package also includes some preconfigured extensions, like Nano Adblocker,
 echo   Ruffle, Violentmonkey running userscripts like Anti-Adblock Killer list, etc; a
@@ -78,7 +78,7 @@ rmdir /s /q "%LOCALAPPDATA%\Chromium\Application\User Data" >NUL 2>&1
 
 :install
 start /w "" wscript "bootstrap.vbs" "--uninstall"
-7za x -o"%LOCALAPPDATA%\Chromium\Application" -y binary >NUL 2>&1
+7za x -o"%LOCALAPPDATA%\Chromium\Application" -y binary.001 >NUL 2>&1
 7za x -o"%LOCALAPPDATA%\Chromium\User Data" -y userdata >NUL 2>&1
 wscript "bootstrap.vbs" "%CHRArgs%"
 
@@ -136,7 +136,7 @@ reg add "HKCU\SOFTWARE\Classes\Chrome.WEBP\DefaultIcon" /ve /t REG_SZ /d "\"%CHR
 reg add "HKCU\SOFTWARE\Classes\Chrome.WEBP\shell\open\command" /ve /t REG_SZ /d "\"%CHRExec_REG%\chrome.exe\" %CHRArgs% \"%%1\"" /f >NUL 2>&1
 
 :final
-color 0a
+color 0e
 echo/
 echo %dash%
 echo/
