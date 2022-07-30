@@ -9,7 +9,7 @@ set "CHRExec_REG=%LOCALAPPDATA%\Chromium\Application"
 taskkill /f /im "chrome.exe"
 
 :keepdata
-cls && echo /
+cls && echo/
 set "proceed= " && set /p "proceed=> Press [ENTER] to remove all userdata files, or [K] and then [ENTER] to keep them: "
 if /i "%proceed%" EQU "K" (goto uninstall) else if "%proceed%" EQU " " (goto fullclean) else (goto keepdata)
 
